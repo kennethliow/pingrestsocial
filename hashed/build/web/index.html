@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>#hashed</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom styles for this template -->
+        <link href="assets/css/hashed.css" rel="stylesheet">
+    </head>
+
+    <body>
+
+        <div class="container">
+
+            <div class="intro-main">
+                <img class="logo img-responsive center-block" src="assets/images/hashedpink-logo.png"/>
+                <p class="header">Sharing and tagging. Made easier.</p>
+                <p class="sub-header">
+                    A place where simplicity meets functionality, sharing and searching photos from Instagram has never been easier. 
+                    Within seconds, you will be sharing photos with the people you care about. Experience a whole new way of looking at photos with hashed.
+                </p>
+                <a href="https://instagram.com/oauth/authorize/?client_id=4715871e4f924121aa370305eff7e77d&redirect_uri=http://localhost:8084/hashed/index.html&response_type=token"><img class="sign-in" src="assets/images/signin-btn.png"/></a>
+            </div>
+        </div><!-- /.container -->
+
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                var access_token = window.location.hash.substring(14);
+                if (access_token != "") {
+                    $.ajax({
+                        type: "POST",
+                        url: "VariableSessionStorage",
+                        data: ({
+                            key: "access_token",
+                            value: access_token
+                        }),
+                        success: function() {
+                            window.location.replace("./LoginServlet");
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>
