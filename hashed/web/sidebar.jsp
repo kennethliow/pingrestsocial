@@ -1,6 +1,3 @@
-<%@page import="controllers.AppController"%>
-<%@page import="controllers.AlbumController"%>
-<%@page import="models.User"%>
 <div class="col-sm-3 col-md-2 sidebar hidden-xs">
     <ul class="nav nav-sidebar">
         <li class="nav-logo"> 
@@ -11,30 +8,40 @@
             </span>
         </li>
     </ul>
-
+    <%
+        String url = request.getRequestURL().toString();
+    %>
     <div class="section_holder">
         <ul class="nav nav-sidebar">
-            <li class="active">Overview</li>
+            <li class="<%if(url.indexOf("is434.jsp")>=0){%>active<%}%>">
+                <a href="is434.jsp">Overview</a>
+            </li>
         </ul>
     </div>
     <div class="section_holder">
         <ul class="nav nav-sidebar">
-            <li>Facebook Insights</li>
+            <li class="<%if(url.indexOf("insights")>=0){%>active<%}%>">
+                <a href="fb_insights.jsp">Facebook Insights</a>
+            </li>
         </ul>
     </div>
     <div class="section_holder">
         <ul class="nav nav-sidebar">
-            <li>Instagram</li>
+            <li class="<%if(url.indexOf("instagram")>=0){%>active<%}%>">
+                <a href="instagram.jsp">Instagram</a>
+            </li>
         </ul>
     </div>
     <div class="section_holder">
         <ul class="nav nav-sidebar">
-            <li>Forum Crawling</li>
+            <li class="<%if(url.indexOf("forum")>=0){%>active<%}%>">
+                <a href="forum.jsp">Forum Crawling</a>
+            </li>
         </ul>
     </div>
     <div id="user_menu">
-        <div id="current_user_avatar"><img class="member_image img-rounded" src="">
-            <a id="current_user" class="overflow-ellipsis" href="index.jsp"></a>
+        <div id="current_user_avatar"><img class="member_image img-rounded" src="assets/images/anonymousUser.jpg">
+            <a id="current_user" class="overflow-ellipsis" href="is434.jsp">Administrator</a>
             <i class="glyphicon glyphicon-log-out sidebarmenuicon" data-toggle="modal" data-target="#logoutModal"></i>
         </div>
     </div>

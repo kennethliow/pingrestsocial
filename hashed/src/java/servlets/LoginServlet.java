@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.parse4j.ParseException;
+import java.util.*;
 
 public class LoginServlet extends HttpServlet {
 
@@ -27,6 +28,24 @@ public class LoginServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         
+        HashMap<String,String> users = new HashMap<String,String>();
+        users.put("pingadmin", "abc12345");
+        users.put("ken", "123");
+        
+        String user = (String) request.getParameter("username");
+        String pw = (String)request.getParameter("password");
+        
+        String pwTest = users.get(user);
+        if(pwTest==null || !pwTest.equals(pw)) {
+            session.setAttribute("fail", "Wrong Username/Password");
+            response.sendRedirect("./index.jsp");
+        } else {
+            session.removeAttribute("fail");
+            session.setAttribute("pass", 123456);
+            response.sendRedirect("./is434.jsp");
+        }
+        
+        /*
         String error = request.getParameter("error");
         if (error != null) {
             response.sendRedirect("./index.jsp");
@@ -47,6 +66,7 @@ public class LoginServlet extends HttpServlet {
             redirectURI = "http://hashed-g2t9.rhcloud.com/LoginServlet";
         }
         
+       
         String code = request.getParameter("code");
         String currentURL = request.getRequestURL().toString();
         String webAppPath = currentURL.substring(0, currentURL.lastIndexOf("/"));
@@ -112,6 +132,7 @@ public class LoginServlet extends HttpServlet {
         } else {
             response.sendRedirect("./explore.jsp");
         }
+        */
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

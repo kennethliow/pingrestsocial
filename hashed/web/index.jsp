@@ -1,3 +1,6 @@
+<%
+    boolean fail = session.getAttribute("fail")!=null ? true : false;
+%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -7,7 +10,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>#hashed</title>
+        <title>#IS434</title>
 
         <!-- Bootstrap core CSS -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet">
@@ -17,25 +20,49 @@
     </head>
 
     <body>
-        <% String currentURL = request.getRequestURL().toString();
-        String loginURL = "";
-        if (currentURL.indexOf("localhost") != -1){
-            session.setAttribute("environment", "development");
-            loginURL = "https://api.instagram.com/oauth/authorize/?client_id=ae09aaad138048e9a144317336a003f7&redirect_uri=http://localhost:8084/hashed/LoginServlet&response_type=code";
-        } else {
-            session.setAttribute("environment", "staging");
-            loginURL = "https://api.instagram.com/oauth/authorize/?client_id=bb635ec0a55d4a8e8c24b858e6e60a75&redirect_uri=http://hashed-g2t9.rhcloud.com/LoginServlet&response_type=code";
-        }%>
-        
         <div class="container">
             <div class="intro-main">
-                <img class="logo img-responsive center-block" src="assets/images/hashedpink-logo.png"/>
-                <p class="header">Sharing and tagging. Made easier.</p>
+                <img class="logo img-responsive center-block" src="assets/images/pings_side.jpg"/>
+                <p class="header">Social Analytics. Made Easier.</p>
                 <p class="sub-header">
-                    A place where simplicity meets functionality, sharing and searching photos from Instagram has never been easier. 
-                    Within seconds, you will be sharing photos with the people you care about. Experience a whole new way of looking at photos with hashed.
+                    <div id="legend">
+                        <legend class="">Administrator Login</legend>
+                    </div>    
+                    <div class="row">
+                        <div
+                            class="fb-like"
+                            data-share="true"
+                            data-width="450"
+                            data-show-faces="true">
+                        </div>
+                        <% if(fail){ %>
+                        <div class="col-lg-8 col-lg-offset-2">
+                            <div class="alert alert-danger" role="alert">
+                                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                <span class="sr-only">Error:</span>
+                                Invalid Username/Password
+                            </div>
+                        </div>
+                        <% } %>
+                        <form id="login-form" action="LoginServlet" method="post" role="form" style="display: block;">
+                            <div class="col-lg-8 col-lg-offset-2">
+                                <div class="form-group">
+                                    <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-6 col-sm-offset-3">
+                                        <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </p>
-                <a href="<%=loginURL%>"><img class="sign-in" src="assets/images/signin-btn.png"/></a>    
             </div>
         </div><!-- /.container -->
 

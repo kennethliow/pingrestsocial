@@ -22,7 +22,7 @@ button:focus {outline:0 !important;}
 
 .intro-main {
 	width:75%;
-	padding: 80px 15px;
+	padding: 50px 15px;
 	text-align: center;
 	margin: 0 auto;
 }
@@ -484,7 +484,7 @@ fieldset[disabled] .btn-pink.active {
  .sidebarmenuicon {
  	position: absolute;
  	color: #a09a9f;
- 	top: 1.2rem;
+ 	top: 2.2rem;
  	right: 1rem;
  	font-size: 14pt;
  	display: inline-block;
@@ -596,4 +596,14 @@ fieldset[disabled] .btn-pink.active {
  }
 
 
-
+.btn-login {
+    background-color: #59B2E0;
+    outline: none;
+    color: #fff;
+    font-size: 14px;
+    height: auto;
+    font-weight: normal;
+    padding: 4px 0;
+    text-transform: uppercase;
+    border-color: #59B2E6;
+}

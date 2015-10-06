@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<jsp:include page="testuser.jsp"/> 
 
 <!DOCTYPE html>
 <html lang="en">
@@ -54,12 +55,6 @@
         <script src="assets/js/bloxhover.jquery.min.js" type="text/javascript"></script>
 
         <script>
-            //Document Ready
-            $(document).ready(function() {
-                displayPopular();
-
-            });
-
             $(window).scroll(function() {
                 if ($(this).scrollTop() > 50) {
                     $('#back-to-top').fadeIn();
