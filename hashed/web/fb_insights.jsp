@@ -12,7 +12,7 @@
         <meta name="author" content="">
         <link rel="icon" href="../../favicon.ico">
 
-        <title>#IS434 Test</title>
+        <title>#IS434 Facebook Insights</title>
 
         <!-- Bootstrap core CSS -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet">
@@ -22,22 +22,22 @@
         <link href="assets/css/blockgrid.css" rel="stylesheet">
         <link href="assets/css/bootstrap-select.css" rel="stylesheet">
         <link href="assets/css/bootstrap-select.min.css" rel="stylesheet">
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script> 
+        <script src="assets/js/bootstrap.min.js"></script>
+        <script src="assets/js/bootstrap-select.min.js"></script>
+        <script src="assets/js/jquery.lazyload.min.js" type="text/javascript"></script>
+        <script src="assets/js/spin.min.js" type="text/javascript"></script>
+        <script src="assets/js/bloxhover.jquery.min.js" type="text/javascript"></script>
+        <script src="assets/js/cld-min.js"></script>
+        <script src="assets/js/d3.js"></script>
+        <script src="assets/js/amcharts.js"></script>
+        <script src="assets/js/serial.js"></script>
+        <script src="assets/js/fb_demographics.js"></script>
     </head>
     <body>
         <script>
-            setTimeout(function(){
-                var wordCloudArr = [];
-                for(var tag in hashtagLibrary) {
-                    wordCloudArr.push({
-                        text: tag,
-                        size: hashtagLibrary[tag] / 4500
-                    });
-                }
-                createWordCloud(wordCloudArr);
-                $("#loadingscreen").fadeOut("slow");
-            }, 6000);
-            
-            var hashtagLibrary = {};
             window.fbAsyncInit = function() {
               FB.init({
                 appId      : '1531128673845258',
@@ -60,138 +60,74 @@
             }(document, 'script', 'facebook-jssdk'));
 
             function runData(response) {
-                hashtagLibrary = {};
                 FB.api(
-                    "/258437627628348/feed?limit=100",
+                    "/258437627628348/insights/page_fans_gender_age",
                     'GET' , 
-                    {}, 
-                    dummyRunData
+                    {fields: "values"}, 
+                    runData2
                 );
             }
             
-            function dummyRunData (response) {
-                runData2(response);
-            }
-            var msg = "";
-            function runData2(response) {
-                for(i = 0 ; i < response.data.length ; i ++){
-                    thisData = response.data[i];
-                    if(typeof thisData != "undefined" && typeof thisData.message != "undefined" && thisData.message.indexOf("#")>-1) {
-                        msg = thisData.message;
-                        getImpressions(thisData, runData3);
+            function runData2 (response) {
+                var male = [], female = [];
+                breakdown = response.data[0].values[0].value;
+                var total = 0;
+                for (eachVal in breakdown) {
+                    total += breakdown[eachVal];
+                }
+                var dataBd = [
+                    {
+                        "age": "13-17",
+                        "male": parseFloat(breakdown["M.13-17"]/total * -100).toFixed(2),
+                        "female": parseFloat(breakdown["F.13-17"]/total * 100).toFixed(2)
+                    },{
+                        "age": "18-24",
+                        "male": parseFloat(breakdown["M.18-24"]/total * -100).toFixed(2),
+                        "female": parseFloat(breakdown["F.18-24"]/total * 100).toFixed(2)
+                    },{
+                        "age": "25-34",
+                        "male": parseFloat(breakdown["M.25-34"]/total * -100).toFixed(2),
+                        "female": parseFloat(breakdown["F.25-34"]/total * 100).toFixed(2)
+                    },{
+                        "age": "35-44",
+                        "male": parseFloat(breakdown["M.35-44"]/total * -100).toFixed(2),
+                        "female": parseFloat(breakdown["F.35-44"]/total * 100).toFixed(2)
+                    },{
+                        "age": "45-54",
+                        "male": parseFloat(breakdown["M.35-44"]/total * -100).toFixed(2),
+                        "female": parseFloat(breakdown["F.35-44"]/total * 100).toFixed(2)
+                    },{
+                        "age": "55-64",
+                        "male": parseFloat(breakdown["M.35-44"]/total * -100).toFixed(2),
+                        "female": parseFloat(breakdown["F.35-44"]/total * 100).toFixed(2)
+                    },{
+                        "age": "65+",
+                        "male": parseFloat(breakdown["M.65+"]/total * -100).toFixed(2),
+                        "female": parseFloat(breakdown["F.65+"]/total * 100).toFixed(2)
                     }
-                    // getComments(thisData.id);
-                }
-                if (typeof response.paging != "undefined" && response.paging.next != "undefined"){
-                    FB.api(response.paging.next, runData2);
-                }
-            }
-
-            function runData3(resp) {
-                runData4 (resp.data[0].values[0].value);
+                ];
+                displayDemographic(dataBd);
             }
             
-            function runData4 (imp) {
-                hashtags = findHashtags(msg);
-                for(j = 0 ; j < hashtags.length ; j++) {
-                    tag = hashtags[j].replace(/[^A-Za-z]+/g, '');
-                    if(tag in hashtagLibrary) {
-                        hashtagLibrary[tag] = hashtagLibrary[tag] + imp;
-                    } else {
-                        hashtagLibrary[tag] = imp;
-                    }
-                }
-            }
         </script> 
         
         <% session.setAttribute("location", "explore");%>
         
         <div class="container-fluid">
             <div class="row">
-
                 <%@include file="sidebar.jsp"%> 
 
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                    <div style="position: absolute; left: 0px; top: 20px; width: 980px; height: 550px; background-color: white; z-index: 2;" id="loadingscreen">
+                    <div style="display:none; position: absolute; left: 0px; top: 20px; width: 1000px; height: 550px; background-color: white; z-index: 2;" id="loadingscreen">
                         <img src="assets/images/Loading.gif" alt="Processing" style="display: block; margin: 0 auto;width:100px;margin-top:200px;">
                     </div>
-                    <div id="mainbody" style="width: 980px; height: 505px; position: relative;">
-                        
+                    <div style="width: 980px; height: 20px; position: relative; font-weight: bold;font-size:20px;">
+                        Ping's Restaurant Group Demographics
+                        <hr style="margin-top: 0px; border-top: 1px solid #c9c9c9;">
                     </div>
+                    <div id="chartdiv" style="width: 100%; height: 500px; font-size:11px; position: relative; margin-top:25px;"></div>
                 </div><!-- End of main -->
             </div><!-- End of row -->
         </div> <!-- End of container -->
-
-        
-
-        <!-- Bootstrap core JavaScript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script> 
-        <script src="assets/js/bootstrap.min.js"></script>
-        <script src="assets/js/bootstrap-select.min.js"></script>
-        <script src="assets/js/jquery.lazyload.min.js" type="text/javascript"></script>
-        <script src="assets/js/spin.min.js" type="text/javascript"></script>
-        <script src="assets/js/bloxhover.jquery.min.js" type="text/javascript"></script>
-        <script src="assets/js/cld-min.js"></script>
-        <script src="assets/js/fb_insights.js"></script>
-        <script src="assets/js/d3.js"></script>
-        <script src="assets/js/d3.layout.cloud.js"></script>
-        <script>
-            $(window).scroll(function() {
-                if ($(this).scrollTop() > 50) {
-                    $('#back-to-top').fadeIn();
-                } else {
-                    $('#back-to-top').fadeOut();
-                }
-            });
-            // scroll body to 0px on click
-            $('#back-to-top').click(function() {
-                $('#back-to-top').tooltip('hide');
-                $('body,html').animate({
-                    scrollTop: 0
-                }, 800);
-                return false;
-            });
-
-            $('#back-to-top').tooltip('show');
-            var span_counter = $("#searchHeader span").length + 1;
-            var image_counter = 1;
-        </script>
-        
-        <script>
-            var fill = d3.scale.category20();
-            function createWordCloud(wordArr) {
-                d3.layout.cloud()
-                    .words(wordArr)
-                    .rotate(function() { return ~~(Math.random() * 2) * 90; })
-                    .font("Impact")
-                    .fontSize(function(d) { return d.size; })
-                    .on("end", draw)
-                    .start();
-            }
-            
-            function draw(words) {
-              d3.select("#mainbody").append("svg")
-                .attr({
-                    "width": '1000px',
-                    "height": '550px'
-                })
-                .append("g")
-                  .attr("transform", "translate(480,220)")
-                .selectAll("#mainbody")
-                  .data(words)
-                .enter().append("text")
-                  .style("font-size", function(d) { return d.size + "px"; })
-                  .style("font-family", "Impact")
-                  .style("fill", function(d, i) { return fill(i); })
-                  .attr("text-anchor", "middle")
-                  .attr("transform", function(d) {
-                    return "translate(" + [d.x, d.y+30] + ")rotate(" + d.rotate + ")";
-                  })
-                  .text(function(d) { return d.text; });
-            }
-        </script>
     </body>
 </html>

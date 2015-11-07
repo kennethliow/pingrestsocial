@@ -1,79 +1,75 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<jsp:include page="testuser.jsp"/> 
+<div class="col-sm-3 col-md-2 sidebar hidden-xs">
+    <ul class="nav nav-sidebar">
+        <li class="nav-logo"> 
+            <img class="img-responsive" src="assets/images/pings_side.jpg" style="width: 30%; display: inline-block;"/>
+            <span class="logo-wordings">
+                <span style="font-size: 20px;">#IS434</span>
+                <br/>Social Analytics
+            </span>
+        </li>
+    </ul>
+    <%
+        String url = request.getRequestURL().toString();
+    %>
+    <div class="section_holder">
+        <ul class="nav nav-sidebar">
+            <li class="<%if(url.indexOf("is434.jsp")>=0){%>active<%}%>">
+                <a href="is434.jsp">Overview</a>
+            </li>
+        </ul>
+    </div>
+    <div class="section_holder">
+        <ul class="nav nav-sidebar">
+            <li class="<%if(url.indexOf("fb")>=0){%>active<%}%>">
+                <a href="fb_insights.jsp">Facebook Insights</a>
+            </li>
+            <li class="<%if(url.indexOf("fb_insights")>=0){%>active<%}%>">
+                <a href="fb_insights.jsp" style="padding-left: 2em;<%if(url.indexOf("fb_insights")>=0){%>background-color: #ee975d;<%}%>">Demographics</a>
+            </li>
+            <li class="<%if(url.indexOf("fb_wordcloud")>=0){%>active<%}%>">
+                <a href="fb_wordcloud.jsp" style="padding-left: 2em;<%if(url.indexOf("fb_wordcloud")>=0){%>background-color: #ee975d;<%}%>">Hashtag Word Cloud</a>
+            </li>
+        </ul>
+    </div>
+    <div class="section_holder">
+        <ul class="nav nav-sidebar">
+            <li class="<%if(url.indexOf("instagram")>=0){%>active<%}%>">
+                <a href="instagram.jsp">Instagram</a>
+            </li>
+        </ul>
+    </div>
+    <div class="section_holder">
+        <ul class="nav nav-sidebar">
+            <li class="<%if(url.indexOf("forum")>=0){%>active<%}%>">
+                <a href="forum.jsp">Forum Crawling</a>
+            </li>
+        </ul>
+    </div>
+    <div id="user_menu">
+        <div id="current_user_avatar"><img class="member_image img-rounded" src="assets/images/anonymousUser.jpg">
+            <a id="current_user" class="overflow-ellipsis" href="is434.jsp">Administrator</a>
+            <i class="glyphicon glyphicon-log-out sidebarmenuicon" data-toggle="modal" data-target="#logoutModal"></i>
+        </div>
+    </div>
+</div>
 
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <jsp:include page="album_create.jsp"/> 
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <link rel="icon" href="../../favicon.ico">
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-alert">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 
-        <title>#IS434</title>
+            </div>
+            <form class="form-horizontal" action="LogoutServlet">
+                <div class="modal-body">
+                    <h4 class="center-text">Are you sure you want to sign out?</h4>
 
-        <!-- Bootstrap core CSS -->
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-
-        <!-- Custom styles for this template -->
-        <link href="assets/css/hashed.css" rel="stylesheet">
-        <link href="assets/css/blockgrid.css" rel="stylesheet">
-        <link href="assets/css/bootstrap-select.css" rel="stylesheet">
-        <link href="assets/css/bootstrap-select.min.css" rel="stylesheet">
-    </head>
-    <body>
-
-        <% session.setAttribute("location", "explore");%>
-
-        <div class="container-fluid">
-            <div class="row">
-
-                <%@include file="sidebar.jsp"%> 
-
-                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                   
-                </div><!-- End of main -->
-
-            </div><!-- End of row -->
-            <a id="back-to-top" href="#" class="btn btn-pink btn-lg back-to-top" role="button" title="Click to return on the top page" data-toggle="tooltip" data-placement="left"><span class="glyphicon glyphicon-chevron-up"></span></a>
-
-        </div> <!-- End of container -->
-
-
-
-        <!-- Bootstrap core JavaScript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script> 
-        <script src="assets/js/bootstrap.min.js"></script>
-        <script src="assets/js/bootstrap-select.min.js"></script>
-        <script src="assets/js/jquery.lazyload.min.js" type="text/javascript"></script>
-        <script src="assets/js/spin.min.js" type="text/javascript"></script>
-        <script src="assets/js/bloxhover.jquery.min.js" type="text/javascript"></script>
-
-        <script>
-            $(window).scroll(function() {
-                if ($(this).scrollTop() > 50) {
-                    $('#back-to-top').fadeIn();
-                } else {
-                    $('#back-to-top').fadeOut();
-                }
-            });
-            // scroll body to 0px on click
-            $('#back-to-top').click(function() {
-                $('#back-to-top').tooltip('hide');
-                $('body,html').animate({
-                    scrollTop: 0
-                }, 800);
-                return false;
-            });
-
-            $('#back-to-top').tooltip('show');
-            var span_counter = $("#searchHeader span").length + 1;
-            var image_counter = 1;
-        </script>
-    </body>
-</html>
+                    <div class="modalbuttonsDiv center-text">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-pink" value="Sign Out">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

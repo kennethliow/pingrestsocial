@@ -20,8 +20,14 @@
     </div>
     <div class="section_holder">
         <ul class="nav nav-sidebar">
-            <li class="<%if(url.indexOf("insights")>=0){%>active<%}%>">
+            <li class="<%if(url.indexOf("fb")>=0){%>active<%}%>">
                 <a href="fb_insights.jsp">Facebook Insights</a>
+            </li>
+            <li class="<%if(url.indexOf("fb_insights")>=0){%>active<%}%>">
+                <a href="fb_insights.jsp" style="padding-left: 2em;<%if(url.indexOf("fb_insights")>=0){%>background-color: #ee975d;<%}%>">Demographics</a>
+            </li>
+            <li class="<%if(url.indexOf("fb_wordcloud")>=0){%>active<%}%>">
+                <a href="fb_wordcloud.jsp" style="padding-left: 2em;<%if(url.indexOf("fb_wordcloud")>=0){%>background-color: #ee975d;<%}%>">Hashtag Word Cloud</a>
             </li>
         </ul>
     </div>
