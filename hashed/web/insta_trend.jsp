@@ -52,25 +52,25 @@
 
                     <div class="row">
 
-                        <div id="searchDiv" class="col-md-12 col-lg-12 center-text">
+                        <div id="searchDiv" class="col-md-12 col-lg-12">
                             <form id="searchForm">
                                 <b>Ping's Restaurant Outlet At:&nbsp;&nbsp; </b>
                                 <div class="btn-group">
-                                    <button class="btn btn-default" id="abut">Please Select From List</button>
+                                    <button class="btn btn-default" id="abut">Ping’s Thai Teochew Seafood Ping’s Hotpot</button>
                                     <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                                         <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-                                        <li class="a"><a tabindex="-1" href="#">Pathumwan Princess Hotel</a></li>
-                                        <li class="a"><a tabindex="-1" href="#">Sukhumvit 21</a></li>
+                                        <li class="a"><a tabindex="-1" href="#">Ping’s Thai Teochew Seafood Ping’s Hotpot</a></li>
+                                        <li class="a"><a tabindex="-1" href="#">Ping’s Shark’s Fin</a></li>
                                         <li class="divider"></li>
-                                        <li class="a"><a tabindex="-1" href="#">Other</a></li>
+                                        <li class="a"><a tabindex="-1" href="#">Others</a></li>
                                     </ul>
                                 </div>
                                 
                                 <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Radius:&nbsp;&nbsp; </b>
                                 <div class="btn-group">
-                                    <button class="btn btn-default" id="bbut">Please Select From List</button>
+                                    <button class="btn btn-default" id="bbut">500m</button>
                                     <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                                         <span class="caret"></span>
                                     </button>
@@ -80,7 +80,7 @@
                                         <li class="b"><a tabindex="-1" href="#">2km</a></li>
                                     </ul>
                                 </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <div class="btn-group"><button type="button" class="btn btn-primary" style="padding: 5px 50px;font-weight:bold;" id="crawl">Crawl Instagram</button></div>
+                                <div class="btn-group"><button type="button" class="btn btn-primary" style="padding: 5px 25px;font-weight:bold;" id="crawl">Crawl Instagram</button></div>
                             </form>
                             <hr>
                         </div>
@@ -192,44 +192,99 @@
         <script src="assets/js/spin.min.js" type="text/javascript"></script>
         <script src="assets/js/bloxhover.jquery.min.js" type="text/javascript"></script>
         <script>
+        var map; 
+        var thisM;
+        var aMarker;
+        var bMarker;
+        var circle;
+        var lat = 13.742989443;
+        var lng = 100.529936132;
+        var dist = 500;
+        
         function initMap() {
             var aLatLng = {lat: 13.742989443, lng: 100.529936132};
             var bLatLng = {lat: 13.740318, lng: 100.561748};
-            var map = new google.maps.Map(document.getElementById('map'), {
+            map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 15,
                 center: {lat: 13.742989443, lng: 100.529936132}
             });
-            var aMarker = new google.maps.Marker({
+            var aiw = new google.maps.InfoWindow({
+                content: "<span style='font-weight:bold;padding:0px 20px 0px 0px;'>Pathumwan Princess Hotel</span>"
+            });
+            var biw = new google.maps.InfoWindow({
+                content: "<span style='font-weight:bold;padding:0px 20px 0px 0px;'>Sukhumvit 21</span>"
+            });
+            aMarker = new google.maps.Marker({
                 position: aLatLng,
                 map: map,
-                title: 'Pathumwan Princess Hotel'
+                title: 'Pathumwan Princess Hotel', 
+                visible: true
             });
-            var bMarker = new google.maps.Marker({
-                position: aLatLng,
+            bMarker = new google.maps.Marker({
+                position: bLatLng,
                 map: map,
-                title: 'Sukhumvit 21'
+                title: 'Sukhumvit 21', 
+                visible: true
             });
+            circle = new google.maps.Circle({
+                map: map,
+                radius: 500,
+                strokeColor:"#222222",
+                strokeOpacity:0.5,
+                strokeWeight:2,
+                fillColor:"#00ff00",
+                fillOpacity:0.2
+            });
+            circle.bindTo('center', aMarker, 'position');
+            biw.open(map,bMarker);
+            aiw.open(map,aMarker);
+            
+            map.addListener('click', function(e) {
+                placeMarkerAndPanTo(e.latLng, map);
+            });
+        }
+        function placeMarkerAndPanTo(latLng, map) {
+            if(typeof(thisM)==="undefined" || thisM === null){
+                thisM = new google.maps.Marker({
+                    position: latLng,
+                    map: map
+                });
+            } else {
+                thisM.setPosition(latLng);
+            }
+            circle.bindTo('center', thisM, 'position');
+            lat = latLng.lat();
+            lng = latLng.lng();
+            $("#abut").text("Others");
+            $("#abut").val("Others");
+            map.panTo(latLng);
         }
         </script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfZUauOgeobVplylSM87ASk8R1oD2OqCo&signed_in=true&callback=initMap" async defer></script>
         <script>
-var lat = 13.742989443;
-var lng = 100.529936132;
-var dist = 500;
-            
 //Document Ready
 $(document).ready(function() {
     $(".a").click(function(){
         var aVal = $(this).text();
-        if(aVal==="Pathumwan Princess Hotel"){
+        if(aVal==="Ping’s Thai Teochew Seafood Ping’s Hotpot"){
             lat = 13.742989443;
             lng = 100.529936132;
-        } else if (aVal==="Sukhumvit 21") {
+            circle.bindTo('center', aMarker, 'position');
+        } else if (aVal==="Ping’s Shark’s Fin") {
             lat = 13.740318;
             lng = 100.561748;
+            circle.bindTo('center', bMarker, 'position');
         }
-        $("#abut").text(aVal);
-        $("#abut").val(aVal);
+        var center = new google.maps.LatLng(lat, lng);
+        if(typeof(thisM)!=="undefined" && thisM !== null){
+            thisM.setMap(null);
+            thisM = null
+        }
+        if(aVal!=="Others"){
+            map.setCenter(center);
+            $("#abut").text(aVal);
+            $("#abut").val(aVal);
+        }
     });
     $(".b").click(function(){
         var bVal = $(this).text();
@@ -242,6 +297,7 @@ $(document).ready(function() {
         }
         $("#bbut").text(bVal);
         $("#bbut").val(bVal);
+        circle.setRadius(dist);
     });
     $("#crawl").click(function(){
         displayPopular();
