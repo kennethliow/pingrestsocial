@@ -15,7 +15,7 @@
         <meta name="author" content="">
         <link rel="icon" href="../../favicon.ico">
 
-        <title>#hashed</title>
+        <title>Instagram Crawler</title>
 
         <!-- Bootstrap core CSS -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet">
@@ -25,6 +25,11 @@
         <link href="assets/css/blockgrid.css" rel="stylesheet">
         <link href="assets/css/bootstrap-select.css" rel="stylesheet">
         <link href="assets/css/bootstrap-select.min.css" rel="stylesheet">
+        <style>
+        #map {
+          height: 300px;
+        }
+        </style>
     </head>
     <body>
 
@@ -36,7 +41,7 @@
                 <%@include file="sidebar.jsp"%> 
 
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                    <h1 class="page-header">#Explore</h1>
+                    <h1 class="page-header">Trending Around Ping's</h1>
 
                     <% if (session.getAttribute("error") != null) {%>
                     <div class="alert alert-danger">  
@@ -47,25 +52,37 @@
 
                     <div class="row">
 
-                        <div class="col-md-12 col-lg-8 col-lg-offset-2 center-text">
-                            <div id="welcomeslide">
-                                <h1>Hey there! Search with keywords</h1>
-                                <p>Begin searching for photos using the search bar below & to add them to an album, simply click on it!</p>
-                            </div>
-                        </div>
-
-                        <div id="searchDiv" class="col-md-12 col-lg-8 col-lg-offset-2 center-text">
-                            <h2 id="searchHeader"></h2>
-
+                        <div id="searchDiv" class="col-md-12 col-lg-12 center-text">
                             <form id="searchForm">
-                                <div class="input-group input-group-lg stylish-input-group">
-                                    <input type="text" class="form-control" id="searchText" autocomplete="off" placeholder="Search photos of specific tag using # or users using @" >
-                                    <span class="input-group-addon" onclick="$('#searchForm').submit()">
-                                        <span class="glyphicon glyphicon-search"></span>
-                                    </span>
+                                <b>Ping's Restaurant Outlet At:&nbsp;&nbsp; </b>
+                                <div class="btn-group">
+                                    <button class="btn btn-default" id="abut">Please Select From List</button>
+                                    <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                                        <li class="a"><a tabindex="-1" href="#">Pathumwan Princess Hotel</a></li>
+                                        <li class="a"><a tabindex="-1" href="#">Sukhumvit 21</a></li>
+                                        <li class="divider"></li>
+                                        <li class="a"><a tabindex="-1" href="#">Other</a></li>
+                                    </ul>
                                 </div>
+                                
+                                <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Radius:&nbsp;&nbsp; </b>
+                                <div class="btn-group">
+                                    <button class="btn btn-default" id="bbut">Please Select From List</button>
+                                    <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                                        <li class="b"><a tabindex="-1" href="#">500m</a></li>
+                                        <li class="b"><a tabindex="-1" href="#">1km</a></li>
+                                        <li class="b"><a tabindex="-1" href="#">2km</a></li>
+                                    </ul>
+                                </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <div class="btn-group"><button type="button" class="btn btn-primary" style="padding: 5px 50px;font-weight:bold;" id="crawl">Crawl Instagram</button></div>
                             </form>
-
+                            <hr>
                         </div>
 
                         <div id="addDiv" class="col-sm-2 hidden">
@@ -75,6 +92,13 @@
 
                     </div>
 
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12 center-text">
+                            <div id="map"></div>
+                            <hr>
+                        </div>
+                    </div>
+                    
                     <div id="displayPhotos" class="block-grid-lg-6 block-grid-md-5 block-grid-sm-4 block-grid-xs-2 thumbnail-row"></div>
 
                 </div><!-- End of main -->
@@ -167,12 +191,61 @@
         <script src="assets/js/jquery.lazyload.min.js" type="text/javascript"></script>
         <script src="assets/js/spin.min.js" type="text/javascript"></script>
         <script src="assets/js/bloxhover.jquery.min.js" type="text/javascript"></script>
-
         <script>
+        function initMap() {
+            var aLatLng = {lat: 13.742989443, lng: 100.529936132};
+            var bLatLng = {lat: 13.740318, lng: 100.561748};
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 15,
+                center: {lat: 13.742989443, lng: 100.529936132}
+            });
+            var aMarker = new google.maps.Marker({
+                position: aLatLng,
+                map: map,
+                title: 'Pathumwan Princess Hotel'
+            });
+            var bMarker = new google.maps.Marker({
+                position: aLatLng,
+                map: map,
+                title: 'Sukhumvit 21'
+            });
+        }
+        </script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfZUauOgeobVplylSM87ASk8R1oD2OqCo&signed_in=true&callback=initMap" async defer></script>
+        <script>
+var lat = 13.742989443;
+var lng = 100.529936132;
+var dist = 500;
+            
 //Document Ready
 $(document).ready(function() {
-    displayPopular();
-
+    $(".a").click(function(){
+        var aVal = $(this).text();
+        if(aVal==="Pathumwan Princess Hotel"){
+            lat = 13.742989443;
+            lng = 100.529936132;
+        } else if (aVal==="Sukhumvit 21") {
+            lat = 13.740318;
+            lng = 100.561748;
+        }
+        $("#abut").text(aVal);
+        $("#abut").val(aVal);
+    });
+    $(".b").click(function(){
+        var bVal = $(this).text();
+        if(bVal==="500m"){
+            dist = 500;
+        } else if (bVal==="1km") {
+            dist = 1000;
+        } else if (bVal==="2km") {
+            dist = 2000;
+        }
+        $("#bbut").text(bVal);
+        $("#bbut").val(bVal);
+    });
+    $("#crawl").click(function(){
+        displayPopular();
+    });
 });
 
 $(window).scroll(function() {
@@ -233,7 +306,8 @@ function displayPopular() {
     $.ajax({
         type: "POST",
         dataType: "jsonp",
-        url: "https://api.instagram.com/v1/media/popular?access_token=" + access_token,
+//        url: "https://api.instagram.com/v1/media/popular?access_token=" + access_token,
+        url: "https://api.instagram.com/v1/media/search?lat=" + lat + "&lng=" + lng + "&distance=" + dist + "&access_token=454859018.89c8fdb.145d2bd0d74b4e0da0893a5cab992523",
         success: function(data) {
             var preparedHtml = '';
             var results_array = (data["data"]);
@@ -333,8 +407,6 @@ function searchPhotos2(search_field){
             }
         });  
     }
-        
-    
 };
 
 //AJAX for SearchPhotos
@@ -493,9 +565,6 @@ function searchPhotos(next_url, run, searchHtml, searchField, spinner) {
 
 
     }
-
-
-
 }
 
 
@@ -646,35 +715,6 @@ function clickedImage(element) {
     /* $(element).toggleClass("imgSelected");
     strinkSearchDiv(); */
 }
-
-
-/*
-
- function centerModal() {
- $(this).css('display', 'block');
- var $dialog = $(this).find(".modal-dialog");
- var offset = ($(window).height() - $dialog.height()) / 2;
- // Center modal vertically in window
- $dialog.css("margin-top", offset);
- }
-
- $('.modal').on('show.bs.modal', centerModal);
- $(window).on("resize", function () {
- $('.modal:visible').each(centerModal);
- });
-
- function clickedImage(element){
- $(element).toggleClass("imgSelected");
- $(element).parent().children('.tick').css('visibility', 'visible');
- };
-
- function clickedTick(element){
- $(element).css('visibility', 'hidden');
- $(element).parent().children('.imgSelected').removeClass('imgSelected');
- };
-
- */
-
 
 function clickedZoomIcon(element) {
     var imgSrc = $(element).closest(".overlayBox").children(".img-rounded").attr("src");

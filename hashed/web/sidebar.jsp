@@ -33,15 +33,14 @@
     </div>
     <div class="section_holder">
         <ul class="nav nav-sidebar">
-            <li class="<%if(url.indexOf("instagram")>=0){%>active<%}%>">
-                <a href="instagram.jsp">Instagram</a>
+            <li class="<%if(url.indexOf("insta_")>=0){%>active<%}%>">
+                <a href="insta_trend.jsp">Instagram Analysis</a>
             </li>
-        </ul>
-    </div>
-    <div class="section_holder">
-        <ul class="nav nav-sidebar">
-            <li class="<%if(url.indexOf("forum")>=0){%>active<%}%>">
-                <a href="forum.jsp">Forum Crawling</a>
+            <li class="<%if(url.indexOf("insta_trend")>=0){%>active<%}%>">
+                <a href="insta_trend.jsp" style="padding-left: 2em;<%if(url.indexOf("insta_trend")>=0){%>background-color: #ee975d;<%}%>">Trending Around Ping's</a>
+            </li>
+            <li class="<%if(url.indexOf("insta_explore")>=0){%>active<%}%>">
+                <a href="insta_explore.jsp" style="padding-left: 2em;<%if(url.indexOf("insta_explore")>=0){%>background-color: #ee975d;<%}%>">Instagram Crawler</a>
             </li>
         </ul>
     </div>
