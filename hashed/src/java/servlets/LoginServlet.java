@@ -26,50 +26,10 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        String accessToken = "454859018.89c8fdb.145d2bd0d74b4e0da0893a5cab992523";
         HttpSession session = request.getSession();
         
-        String clientID = "4a8b2ab79fb34cc5804eb18aec833e37";
-        String clientSecret = "aea1b6bdb03144edb4d920c9ad26d020";
-        String redirectURI = "http://localhost:8084/hashed/LoginServlet";
-        
-        String code = "CODE";
-        String currentURL = request.getRequestURL().toString();
-        String webAppPath = currentURL.substring(0, currentURL.lastIndexOf("/"));
-        
-        String urlParameters = "client_id=" + URLEncoder.encode(clientID, "UTF-8") + 
-                            "&client_secret=" + URLEncoder.encode(clientSecret, "UTF-8") + 
-                            "&grant_type=" + URLEncoder.encode("authorization_code", "UTF-8") + 
-                            "&redirect_uri=" + URLEncoder.encode(redirectURI, "UTF-8") + 
-                            "&code=" + URLEncoder.encode(code, "UTF-8");
-
-        URL secondAuth = new URL("https://api.instagram.com/oauth/access_token");
-        HttpURLConnection urlcon = (HttpURLConnection) secondAuth.openConnection();
-        urlcon.setDoOutput(true);
-        urlcon.setDoInput(true);
-        urlcon.setRequestProperty("Content-Type", "application/json");
-        urlcon.setUseCaches(false);
-        
-        // send request
-        DataOutputStream cgiInput = new DataOutputStream(urlcon.getOutputStream());
-	cgiInput.writeBytes(urlParameters);
-	cgiInput.flush();
-	cgiInput.close();
-        
-        // get the input from the request
-        BufferedReader in = new BufferedReader(new InputStreamReader(urlcon.getInputStream()));
-        String res = in.readLine();
-        in.close();
-
-        // retrieving response
-        Object obj = JSONValue.parse(res);
-        JSONObject jObj = (JSONObject) obj;
-        String accessToken = (String) jObj.get("access_token");
         session.setAttribute("access_token", accessToken);
-        
-        
-        
-        
-        
         
         HashMap<String,String> users = new HashMap<String,String>();
         users.put("pingadmin", "abc12345");
