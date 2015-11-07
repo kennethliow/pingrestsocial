@@ -122,17 +122,6 @@
 
                             <div class="form-group">
                                 <label for="albumName">Which album(s) would you like to add these photos to?</label>
-                                <select id="albumName" name="albums" multiple title='No Albums Selected' class="selectpicker form-control" multiple>
-                                    <%  appController = (AppController) session.getAttribute("appController");
-                                        albumController = appController.getAlbumController();
-                                        UserController userController = appController.getUserController();
-                                        ArrayList<Album> albumList = albumController.getAlbumList();
-                                        for (Album album : albumList) {
-                                                                                if (album.getOwner() == userController.getUserLoggedIn()) {%>
-                                    <option><%=album.getName()%></option>
-                                    <% }
-                                                                            }%>
-                                </select>
                             </div>
                             <input type="hidden" id="selected_photos" name="photoIDs" value=""/>
                             <input type="hidden" id="selected_photos_links" name="photoLinks" value=""/>

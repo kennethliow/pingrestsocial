@@ -24,7 +24,7 @@
             loginURL = "https://api.instagram.com/oauth/authorize/?client_id=ae09aaad138048e9a144317336a003f7&redirect_uri=http://localhost:8084/hashed/LoginServlet&response_type=code";
         } else {
             session.setAttribute("environment", "staging");
-            loginURL = "https://api.instagram.com/oauth/authorize/?client_id=bb635ec0a55d4a8e8c24b858e6e60a75&redirect_uri=http://hashed-g2t9.rhcloud.com/LoginServlet&response_type=code";
+            loginURL = "https://api.instagram.com/oauth/authorize/?client_id=4a8b2ab79fb34cc5804eb18aec833e37&redirect_uri=http://hashed-g2t9.rhcloud.com/LoginServlet&response_type=code";
         }%>
         
         <div class="container">
