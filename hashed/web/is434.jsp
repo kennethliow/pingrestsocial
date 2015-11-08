@@ -177,9 +177,9 @@
                         <div class="col-md-6 col-lg-6" style="padding-right: 45px;">
                             <img class="col-md-12 col-lg-12" src="assets/images/ping1.jpg" style="height:150px;padding: 0px;">
                             <div class="col-md-12 col-lg-12" style="padding: 0px;text-align: justify;">
-                                <br>We uphold the impeccable taste of Thai-Teochew style delicacies and continue to attract a loyal following from internationally and locally acclaimed celebrities and royalties. Our other Signature dishes include the Fried Fish Maw with Prawns, Braised Goose Web and Meepok Noodles in Clay Pot. The seafood specialties like the Vermicelli with Prawns or Curry Crab in Singapore Style are also highly recommended. 
-                                <br><br>Both of our restaurants offer you a choice of elegant VIP rooms designed in modern oriental classic style. Our services are attentive, friendly and seamless to provide the best-ever possible fine-dining experience.
-                                <br><br>We are confident in the quality of Ping’s and look forward to serving you soon in any one of our restaurants! 
+                                <br>This website was designed and created by Singapore Management University students, including Kenneth Liow, Ng Ying Neng, Leong Hoi Chuen, Eric Ong and Sulovna Susant, as part of the IS434 - Social Analytics and Applications Module. The goal of this website is to help our client (Ping's Restaurant Group) better understand and analyze their existing social media and also conduct social media listening to identify the latest trends in the food and beverage industry.
+                                <br><br>Incorporate into this website are multiple tools to achieve the mentioned goals. This includes two key segments: (1) Facebook Insights and (2) Instagram Analysis. These social media tools perform analysis on both existing available data as well as external information crawled.
+                                <br><br>The team is confident that this application will aid in your analysis and we look forward to hearing positive feedback from the management! 
                             </div>
                         </div>
                         <div class="col-md-6 col-lg-6" style="padding: 0px;">
