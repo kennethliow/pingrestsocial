@@ -1,5 +1,30 @@
 @import url(http://fonts.googleapis.com/css?family=Lato);
 
+.curve {
+    border: 1px solid #ccc;
+    padding: 6px 15px; 
+    height: 35px; 
+    background: #f6f7f8;
+    border-bottom: 1px solid #dddedf;
+    border-radius: 3px 3px 0 0;
+}
+
+.curve_bot {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 0 0 3px 3px;
+    border-top: 0;
+    text-align: center;
+    padding: 10px 0px;
+}
+
+.text_cur {
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: helvetica, arial, sans-serif;
+}
+
 body {
 	font-family: 'Lato',sans-serif;
 	-webkit-font-smoothing: antialiased;

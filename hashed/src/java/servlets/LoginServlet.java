@@ -26,7 +26,7 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String accessToken = "454859018.89c8fdb.145d2bd0d74b4e0da0893a5cab992523";
+        String accessToken = "2178266985.d4f545c.7d3bf864e8224846aa10a883c889e935";
         HttpSession session = request.getSession();
         
         session.setAttribute("access_token", accessToken);

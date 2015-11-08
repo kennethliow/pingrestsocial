@@ -22,6 +22,7 @@
         <link href="assets/css/blockgrid.css" rel="stylesheet">
         <link href="assets/css/bootstrap-select.css" rel="stylesheet">
         <link href="assets/css/bootstrap-select.min.css" rel="stylesheet">
+        <link href="assets/css/nv.d3.css" rel="stylesheet" type="text/css">
         
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script> 
@@ -34,6 +35,9 @@
         <script src="assets/js/d3.js"></script>
         <script src="assets/js/amcharts.js"></script>
         <script src="assets/js/serial.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
+        <script src="assets/js/nv.d3.js"></script>
+        <script src="assets/js/stream_layers.js"></script>
     </head>
     <body>
         <script>
@@ -58,15 +62,101 @@
                fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));
             
+            function showGraph(chVal, data) {
+                nv.addGraph(function() {
+                    var chart = nv.models.lineChart().x( function(d){return new Date(d.x);} );
+
+                    chart.xScale(d3.time.scale());
+                    chart.xAxis.ticks(d3.time.days, 1).tickFormat(function(d) { return d3.time.format("%d %b")(d) });
+                    chart.yAxis.tickFormat(d3.format(',.f'));
+                    d3.select('#' + chVal + ' svg')
+                        .datum(data)
+                        .call(chart);
+
+                    nv.utils.windowResize(chart.update);
+                    return chart;
+                });
+            }
+            
             function runData(response) {
                 FB.api(
-                    "/258437627628348/insights/page_fans_gender_age",
+                    "/258437627628348/insights/page_impressions?fields=values&period=week",
                     'GET' , 
                     {fields: "values"}, 
-                    runData2
+                    getData
+                );
+                FB.api(
+                    "/258437627628348/insights/page_engaged_users?fields=values&period=week",
+                    'GET' , 
+                    {fields: "values"}, 
+                    getData2
                 );
             }
-            function runData2(resp) {}
+            var j = 0; var k = 0;
+            var page_impressions = [{
+                key : "Page Impressions",
+                values : []
+            }];
+            var page_engagement = [{
+                key : "Page Engagement",
+                values : []
+            }];
+            function getData(response) {
+                var arr = response.data[0].values;
+                for(i = arr.length-1; i >=0 ; i--){
+                    page_impressions[0].values.push({x : arr[i].end_time.split('T')[0], y: arr[i].value});
+                }
+                if (j<2 && response.paging.previous != "undefined"){
+                    FB.api(response.paging.previous, getData);
+                } else {
+                    showGraph('chart', page_impressions);
+                }
+                j++;
+            }
+            function getData2(thisResp) {
+                var arr = thisResp.data[0].values;
+                for(i = arr.length-1; i >=0 ; i--){
+                    page_engagement[0].values.push({x : arr[i].end_time.split('T')[0], y: arr[i].value});
+                }
+                if (k<2 && thisResp.paging.previous != "undefined"){
+                    FB.api(thisResp.paging.previous, getData2);
+                } else {
+                    showGraph('chart2', page_engagement);
+                }
+                k++;
+            }
+            $(function() {
+		$.ajax({
+                    type: "GET",
+                    dataType: "jsonp",
+                    cache: true,
+                    url: "https://api.instagram.com/v1/users/454859018/?access_token=2178266985.d4f545c.7d3bf864e8224846aa10a883c889e935",
+                        success: function(data) {
+                            console.log(data);
+                            var ig_count = data.data.counts.followed_by.toString();
+                            var med_count = data.data.counts.media.toString();
+                            ig_count = add_commas(ig_count);
+                            $(".instagram_count").html("").html(ig_count);
+                            $(".instagram_media").html("").html(med_count);
+                        }
+                    });
+                    function add_commas(number) {
+                        if (number.length > 3) {
+                                var mod = number.length % 3;
+                                var output = (mod > 0 ? (number.substring(0,mod)) : '');
+                                for (i=0 ; i < Math.floor(number.length / 3); i++) {
+                                        if ((mod == 0) && (i == 0)) {
+                                                output += number.substring(mod+ 3 * i, mod + 3 * i + 3);
+                                        } else {
+                                                output+= ',' + number.substring(mod + 3 * i, mod + 3 * i + 3);
+                                        }
+                                }
+                                return (output);
+                        } else {
+                                return number;
+                        }
+                    }
+            });
         </script> 
         
         <% session.setAttribute("location", "explore");%>
@@ -76,14 +166,57 @@
                 <%@include file="sidebar.jsp"%> 
 
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                    <div style="display:none; position: absolute; left: 0px; top: 20px; width: 1000px; height: 550px; background-color: white; z-index: 2;" id="loadingscreen">
-                        <img src="assets/images/Loading.gif" alt="Processing" style="display: block; margin: 0 auto;width:100px;margin-top:200px;">
+                    <div class="row" style="height: 50px;">
+                        <div style="width: 980px; height: 20px; position: relative; font-weight: bold;font-size:20px;">
+                            Ping's Restaurant Group
+                            <hr style="margin-top: 0px; border-top: 1px solid #c9c9c9;">
+                        </div>
                     </div>
-                    <div style="width: 980px; height: 20px; position: relative; font-weight: bold;font-size:20px;">
-                        Ping's Restaurant Group
-                        <hr style="margin-top: 0px; border-top: 1px solid #c9c9c9;">
+                    
+                    <div class="row">
+                        <div class="col-md-6 col-lg-6" style="padding-right: 45px;">
+                            <img class="col-md-12 col-lg-12" src="assets/images/ping1.jpg" style="height:150px;padding: 0px;">
+                            <div class="col-md-12 col-lg-12" style="padding: 0px;text-align: justify;">
+                                <br>We uphold the impeccable taste of Thai-Teochew style delicacies and continue to attract a loyal following from internationally and locally acclaimed celebrities and royalties. Our other Signature dishes include the Fried Fish Maw with Prawns, Braised Goose Web and Meepok Noodles in Clay Pot. The seafood specialties like the Vermicelli with Prawns or Curry Crab in Singapore Style are also highly recommended. 
+                                <br><br>Both of our restaurants offer you a choice of elegant VIP rooms designed in modern oriental classic style. Our services are attentive, friendly and seamless to provide the best-ever possible fine-dining experience.
+                                <br><br>We are confident in the quality of Ping’s and look forward to serving you soon in any one of our restaurants! 
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-6" style="padding: 0px;">
+                            <div class="col-md-12 col-lg-12" style="padding: 0px;">
+                                <div class="col-md-12 col-lg-12" style="padding: 0px;">
+                                    <b>Overview of Facebook Insights</b>
+                                    <hr style="margin: 0px;">
+                                    <div id="chart" class='with-3d-shadow with-transitions' style="height:180px">
+                                        <svg></svg>
+                                    </div>
+                                    <hr style="margin: 0px 0px 15px;">
+                                    <div id="chart2" class='with-3d-shadow with-transitions' style="height:180px">
+                                        <svg></svg>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-lg-12" style="padding: 0px;"></div>
+                                <div class="col-md-12 col-lg-12" style="padding: 0px;">
+                                    <b>Instagram Key Statistics</b>
+                                    <hr style="margin: 0px;">
+                                    <div style="padding: 2%;">
+                                        <div class="col-md-6 col-lg-6 curve" style="margin-left:-5px;">
+                                            <div class="text_cur"><b>Followers</b></div>
+                                        </div>
+                                        <div class="col-md-6 col-lg-6 curve" style="margin-left:4px;">
+                                            <div class="text_cur"><b>No of Posts</b></div>
+                                        </div>
+                                        <div class="col-md-6 col-lg-6 curve_bot instagram_count" style="margin-left:-5px;">
+                                            #
+                                        </div>
+                                        <div class="col-md-6 col-lg-6 curve_bot instagram_media" style="margin-left:4px;">
+                                            #
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div id="chartdiv" style="width: 100%; height: 500px; font-size:11px; position: relative; margin-top:25px;"></div>
                 </div><!-- End of main -->
             </div><!-- End of row -->
         </div> <!-- End of container -->

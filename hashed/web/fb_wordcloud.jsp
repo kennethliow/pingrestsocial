@@ -106,7 +106,7 @@
                         Ping's Restaurant Group Hashtag Word Cloud
                         <hr style="margin-top: 0px; border-top: 1px solid #c9c9c9;">
                     </div>
-                    <div id="mainbody" style="width: 980px; height: 505px; position: relative; margin-top:25px;"></div>
+                    <div id="mainbody" style="width: 980px; height: 500px; position: relative; margin-top:25px;"></div>
                 </div><!-- End of main -->
             </div><!-- End of row -->
         </div> <!-- End of container -->
@@ -139,10 +139,10 @@
               d3.select("#mainbody").append("svg")
                 .attr({
                     "width": '1000px',
-                    "height": '550px'
+                    "height": '530px'
                 })
                 .append("g")
-                .attr("transform", "translate(480,220)")
+                .attr("transform", "translate(500,265)")
                 .selectAll("#mainbody")
                 .data(words)
                 .enter().append("text")
@@ -151,7 +151,7 @@
                 .style("fill", function(d, i) { return fill(i); })
                 .attr("text-anchor", "middle")
                 .attr("transform", function(d) {
-                  return "translate(" + [d.x, d.y+30] + ")rotate(" + d.rotate + ")";
+                  return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
                 })
                 .text(function(d) { return d.text; });
             }

@@ -4,7 +4,7 @@ setTimeout(function(){
     for(var tag in hashtagLibrary) {
         wordCloudArr.push({
             text: tag,
-            size: hashtagLibrary[tag] / 4500
+            size: hashtagLibrary[tag] / 8800
         });
     }
     createWordCloud(wordCloudArr);
@@ -42,9 +42,7 @@ function getComments(data) {
             if(response.data.length > 0) {
                 for(i = 0 ; i < response.data.length ; i ++){
                     thisData = response.data[i];
-                    if(detectLanguage(thisData.message) != "Thai" ) {
-
-                    }
+                    if(detectLanguage(thisData.message) != "Thai" ) {}
                 }
             }
         }

@@ -14,33 +14,33 @@
     <div class="section_holder">
         <ul class="nav nav-sidebar">
             <li class="<%if(url.indexOf("is434.jsp")>=0){%>active<%}%>">
-                <a href="is434.jsp">Overview</a>
+                <a href="is434.jsp"><b>Overview</b></a>
             </li>
         </ul>
     </div>
     <div class="section_holder">
         <ul class="nav nav-sidebar">
             <li class="<%if(url.indexOf("fb")>=0){%>active<%}%>">
-                <a href="fb_insights.jsp">Facebook Insights</a>
+                <a href="fb_insights.jsp"><b>Facebook Insights</b></a>
             </li>
             <li class="<%if(url.indexOf("fb_insights")>=0){%>active<%}%>">
-                <a href="fb_insights.jsp" style="padding-left: 2em;<%if(url.indexOf("fb_insights")>=0){%>background-color: #ee975d;<%}%>">Demographics</a>
+                <a href="fb_insights.jsp" style="padding-left: 3em;<%if(url.indexOf("fb_insights")>=0){%>background-color: #ee975d;<%}%>">Demographics</a>
             </li>
             <li class="<%if(url.indexOf("fb_wordcloud")>=0){%>active<%}%>">
-                <a href="fb_wordcloud.jsp" style="padding-left: 2em;<%if(url.indexOf("fb_wordcloud")>=0){%>background-color: #ee975d;<%}%>">Hashtag Word Cloud</a>
+                <a href="fb_wordcloud.jsp" style="padding-left: 3em;<%if(url.indexOf("fb_wordcloud")>=0){%>background-color: #ee975d;<%}%>">#Hashtag Word Cloud</a>
             </li>
         </ul>
     </div>
     <div class="section_holder">
         <ul class="nav nav-sidebar">
             <li class="<%if(url.indexOf("insta_")>=0){%>active<%}%>">
-                <a href="insta_trend.jsp">Instagram Analysis</a>
-            </li>
-            <li class="<%if(url.indexOf("insta_trend")>=0){%>active<%}%>">
-                <a href="insta_trend.jsp" style="padding-left: 2em;<%if(url.indexOf("insta_trend")>=0){%>background-color: #ee975d;<%}%>">Trending Around Ping's</a>
+                <a href="insta_explore.jsp"><b>Instagram Analysis</b></a>
             </li>
             <li class="<%if(url.indexOf("insta_explore")>=0){%>active<%}%>">
-                <a href="insta_explore.jsp" style="padding-left: 2em;<%if(url.indexOf("insta_explore")>=0){%>background-color: #ee975d;<%}%>">Instagram Crawler</a>
+                <a href="insta_explore.jsp" style="padding-left: 3em;<%if(url.indexOf("insta_explore")>=0){%>background-color: #ee975d;<%}%>">Instagram Explorer</a>
+            </li>
+            <li class="<%if(url.indexOf("insta_trend")>=0){%>active<%}%>">
+                <a href="insta_trend.jsp" style="padding-left: 3em;<%if(url.indexOf("insta_trend")>=0){%>background-color: #ee975d;<%}%>">Trending Around Ping's</a>
             </li>
         </ul>
     </div>

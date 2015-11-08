@@ -228,7 +228,7 @@ function displayPopular() {
     span_counter = 1;
     image_counter = 1;
 
-    var access_token = '<%= session.getAttribute("access_token")%>';
+    var access_token = '2178266985.d4f545c.7d3bf864e8224846aa10a883c889e935';
     window.name = "popular";
     $.ajax({
         type: "POST",
@@ -405,7 +405,7 @@ function searchPhotos(next_url, run, searchHtml, searchField, spinner) {
     }
 
     updateSearchHeader(isUser, searchVal);
-    var access_token = '<%= session.getAttribute("access_token")%>';
+    var access_token = '2178266985.d4f545c.7d3bf864e8224846aa10a883c889e935';
 
 
     if (!isUser) {
